@@ -1,0 +1,35 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage[latin1]{inputenc}
+\author{Joao Vitor Elias Carvalho - 112037860}
+\title{Trabalhando com Grandes Volumes de Dados}
+
+\begin{document}
+\maketitle
+
+\newpage
+
+\newpage
+
+\section{ Pergunta }
+
+Qual melhor tipo de pokemon baseado em qual tipo tem vantagem sobre outro tipo. Basicamente qual tipo possui mais pokemons que ele tem vantagem dentro desse dataset.
+
+\section{ Dados }
+
+Vamos utilizar o dataset composto pelos 721 pokemons retirados do site Kaggle. Alem disso foi necessário introduzir as vantagens e desvantagens de em relação a cada tipo de pokémon. Após uma pesquisa, achei a tabela de Strengths e Weakness que transformei em um arquivo JSON para ser utilizado facilmente no código.
+
+\section{ Método } 
+
+Utilizei a linguagem Python. As bibliotecas utilizadas foram: csv, json, numpy e matplotlib. Primeiramente contabilizei quantos pokemons de cada tipo existiam no database guardando-os em um dicionário. Então utilizando a tabela de strengths e weakness eu percorrei cada tipo somando quantos pokemons aquele tipo possuía vantagem ou desvantagem. Após isso foi só uma questão de plotar as informações em um gráfico de barra.
+
+\section{ Resultados }
+
+\includegraphics[width=\textwidth]{graph.png}
+
+Cada tipo possui duas barras: a primeira é a contagem de quantos pokemons ele possui vantagem e a segunda é quantos pokemons ele possui desvantagem. 
+
+Podemos observar alguns tipo que possuem mais vantagens do que desvantagens como o tipo Fighting, Ghost, Rock e Ground.
+
+
+\end{document}

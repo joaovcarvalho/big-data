@@ -59,11 +59,13 @@ with open('Pokemon.csv', 'rb') as csvfile:
         color = RGB_tuples[i]
         plt.bar( [i], [data_strong[i]], width=0.35, label=n, color=color)
         plt.bar( [i + 0.35], [data_weak[i]], width=0.35, color=color)
-        # plt.bar( [i + 0.35*2], [data_immune[i]], width=0.35, color=color)
 
-    leg = plt.legend( loc = 'upper right')
     ax  = plt.gca()
-    ax.legend(bbox_to_anchor=(1.15, 1.05))
+
+    ax.set_ylabel('# of Pokemons')
+    ax.set_title('Strengths and Weakness by Pokemon Type')
+    ax.set_xticks(ind + 0.35)
+    ax.set_xticklabels(tuple(names))
 
     # fig.plot()
     # plt.axis([0, 6, 0, 20])

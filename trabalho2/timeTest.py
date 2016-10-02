@@ -37,5 +37,5 @@ with open('amostra_tempo.csv', 'rb') as csvfile:
 
 z = (average_sample - average_pop) / (std_deviant_pop / np.sqrt(sample_times.size))
 print "Z: " + str(z)
-p_value = stats.uniform.cdf(z)
+p_value = 1 - stats.norm.cdf(z)
 print "P-value: " + str(p_value)

@@ -28,8 +28,6 @@ def getDictFromCSV(file_path):
         return (number_faces_dataset, imdb_score_dataset)
 
 number_faces, imdb_score = getDictFromCSV("movie_metadata.csv")
-print number_faces
-print imdb_score
 
 rho, p_value = stats.spearmanr(number_faces, imdb_score, axis=None)
 print "Rho: " + str(rho)

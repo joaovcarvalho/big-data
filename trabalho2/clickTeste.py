@@ -6,12 +6,6 @@ import scipy.stats as stats
 
 DICT_KEY = " click_on"
 
-def answerToNumber(x):
-    if x == 'yes':
-        return 1;
-    else:
-        return 0;
-
 def get_property_from_dataset(dataset, property_key):
     result = []
     for row in dataset:
@@ -24,7 +18,7 @@ def getClicksFromFile(file_path):
 
         clicks = np.array(get_property_from_dataset(dataset_sample_a, DICT_KEY));
 
-        clicks =  map(answerToNumber, clicks);
+        clicks =  map(lambda x: 1 if x == 'yes' else 0 , clicks);
         return clicks
 
 clicks_sample_a = getClicksFromFile('amostra_A_click.csv');

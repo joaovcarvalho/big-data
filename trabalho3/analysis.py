@@ -5,22 +5,25 @@ import matplotlib.pyplot as plt
 FILE_PATH = 'preprocessed_train.csv'
 
 print "Loading dataset from file %s" % (FILE_PATH)
-dataset = np.genfromtxt(FILE_PATH, delimiter=',',skip_header=1)
-print "Dataset loaded..."
+preprocessed_dataset = np.genfromtxt(FILE_PATH, delimiter=',',skip_header=1)
+original_dataset     = np.genfromtxt('train_file.csv', delimiter=',', skip_header=1)
+print "Datasets loaded..."
+
+
+
+# print dataset[0]
+# mean = dataset.mean(axis=0)
+# std  = dataset.std(axis=0)
+
+# bar_chart(mean)
+# bar_chart(std)
+
+# print "Columns: %d" % (dataset.shape[1])
 
 def bar_chart(data):
     for i,n in enumerate(data):
         plt.bar( [i], [data[i]], width=0.35, label=n)
     plt.show()
-
-# print dataset[0]
-mean = dataset.mean(axis=0)
-std  = dataset.std(axis=0)
-
-# bar_chart(mean)
-# bar_chart(std)
-
-print "Columns: %d" % (dataset.shape[1])
 
 def correlation_between_each_column_and_class(dataset):
     rho, p_value = stats.spearmanr(dataset)

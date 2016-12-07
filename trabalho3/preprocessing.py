@@ -12,51 +12,43 @@ target_data   = train_dataset[:, train_dataset.shape[1] - 1 ]
 # Get all columns but the last
 train_dataset = train_dataset[:, :(train_dataset.shape[1] - 1) ]
 
-before_processing_columns = train_dataset.shape[1]
+dataset = np.concatenate((train_dataset, test_dataset), axis=0)
+
+before_processing_columns = dataset.shape[1]
 
 preprocessing_steps = {}
 
 scaler  = preprocessing.StandardScaler()
 
 # Remove zero variance columns
-train_dataset, preprocessing_steps['zero_variance_columns'] = removeZeroVarianceColumns(train_dataset)
+dataset = removeZeroVarianceColumns(dataset)
 
 # Get second column that is equal to first
 # we just need to remove one of the columns
-train_dataset, preprocessing_steps['columns_that_are_equal'] = removeColumnsThatAreEqual(train_dataset)
+dataset = removeColumnsThatAreEqual(dataset)
 
-# train_dataset,c = removeCorrelatedColumns(train_dataset)
+# dataset = removeCorrelatedColumns(dataset)
 
-train_dataset, preprocessing_steps['categorical_indexes'] = encodeCategoricalFeatures(train_dataset)
-
-print train_dataset.shape
-train_dataset = scaler.fit_transform(train_dataset)
-print train_dataset.shape
+categorical_indexes = get_categorical_features(dataset)
+dataset = encode_test_dataset(dataset, categorical_indexes)
 
 # Add last column for targets
 # train_dataset[:,-1] = target_data
+train_dataset = dataset[:train_dataset.shape[0]]
 train_dataset = np.column_stack( (train_dataset, target_data) )
-
 
 # Get only a subsample of the train_dataset
 # so we can iterate faster for testing
 # train_dataset = train_dataset[:(10000),:]
 
-after_processing_columns = train_dataset.shape[1]
+after_processing_columns = dataset.shape[1]
 print ("Columns removed: %d" % (before_processing_columns - after_processing_columns))
 print "Columns left: %d" %(after_processing_columns)
-
-# p_file = open('preprocessing.pickle',"wb")
-# pk.dump(preprocessing_steps, p_file)
 
 np.savetxt('preprocessed_train.csv',train_dataset,delimiter=",")
 print "Train dataset preprocessed with success"
 
-# preprocessing test data
-test_dataset = np.delete(test_dataset,preprocessing_steps['zero_variance_columns'],1)
-test_dataset = np.delete(test_dataset,preprocessing_steps['columns_that_are_equal'],1)
-test_dataset = encode_test_dataset(test_dataset,preprocessing_steps['categorical_indexes'])
-test_dataset = scaler.transform(test_dataset)
+test_dataset = dataset[ -6000:]
 
 np.savetxt('preprocessed_test.csv',test_dataset,delimiter=",")
 print "Test dataset preprocessed with success"

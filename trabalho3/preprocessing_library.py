@@ -19,20 +19,14 @@ def encode_test_dataset(dataset,categorical_indexes):
         df.drop([column], inplace=True, axis=1)
     return df.as_matrix()
 
-def encodeCategoricalFeatures(dataset):
+
+def get_categorical_features(dataset):
     categorical_indexes = []
     for index,column in enumerate(dataset.T):
         uniques = np.unique(column)
-        if uniques.size < 20 and np.all(column >= 0):
+        if uniques.size < 15 and column.min() >= 0:
             categorical_indexes.append(index)
-
-    df = pd.DataFrame(data=dataset)
-    for column in categorical_indexes:
-        just_dummies = pd.get_dummies(df[column])
-        df = pd.concat([df, just_dummies], axis=1)
-        df.drop([column], inplace=True, axis=1)
-
-    return df.as_matrix(),categorical_indexes
+    return categorical_indexes
 
 # Return tuples of columns that are equal
 def removeColumnsThatAreEqual(dataset, index = 1):
@@ -50,7 +44,7 @@ def removeColumnsThatAreEqual(dataset, index = 1):
     columns = [ x[index] for x in columns]
 
     dataset = np.delete(dataset, columns,1)
-    return dataset, columns
+    return dataset
 
 # Returns column index that have zero variance
 def removeZeroVarianceColumns(dataset):
@@ -61,7 +55,7 @@ def removeZeroVarianceColumns(dataset):
             if np.var(dataset[:,index]) == 0.0
             ]
     dataset = np.delete(dataset,zero_variance_columns,1)
-    return dataset, zero_variance_columns
+    return dataset
 
 
 def removeCorrelatedColumns(dataset, rho_min=0.9, p_value_max=0.05, index_to_remove=1):
@@ -82,7 +76,7 @@ def removeCorrelatedColumns(dataset, rho_min=0.9, p_value_max=0.05, index_to_rem
     correlated_columns = sorted(set( [ x[index_to_remove] for x in correlated_columns] ))
 
     dataset = np.delete(dataset, correlated_columns,1)
-    return dataset, correlated_columns
+    return dataset
 
 def removeWeaklyCorrelatedWithClassColumns(dataset, rho_min=10e-3, p_value_max=0.05):
     rho, p_value = stats.spearmanr(dataset)
@@ -93,4 +87,4 @@ def removeWeaklyCorrelatedWithClassColumns(dataset, rho_min=10e-3, p_value_max=0
             weakly_correlated.append(i)
 
     dataset = np.delete(dataset, weakly_correlated, 1)
-    return dataset, weakly_correlated
+    return dataset

@@ -31,7 +31,12 @@ def train_model(dataset):
 
     # Best result for now, AUC average: 82.0, std: 0.1
     from sklearn.ensemble import RandomForestClassifier
-    clf = RandomForestClassifier(max_depth=15, n_estimators=50)
+    clf = RandomForestClassifier(max_depth=15,
+        n_estimators=100,
+        max_features=None,
+        min_samples_leaf=50,
+        n_jobs=-1
+    )
 
     # from sklearn.ensemble import ExtraTreesClassifier
     # clf = ExtraTreesClassifier(max_depth=15, n_estimators=50)

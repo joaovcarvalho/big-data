@@ -18,7 +18,7 @@ before_processing_columns = dataset.shape[1]
 
 preprocessing_steps = {}
 
-scaler  = preprocessing.StandardScaler()
+scaler  = preprocessing.RobustScaler()
 
 # Remove zero variance columns
 dataset = removeZeroVarianceColumns(dataset)
@@ -32,6 +32,8 @@ dataset = removeColumnsThatAreEqual(dataset)
 categorical_indexes = get_categorical_features(dataset)
 dataset = encode_test_dataset(dataset, categorical_indexes)
 
+# dataset = scaler.fit_transform(dataset)
+
 # Add last column for targets
 # train_dataset[:,-1] = target_data
 train_dataset = dataset[:train_dataset.shape[0]]
@@ -39,7 +41,7 @@ train_dataset = np.column_stack( (train_dataset, target_data) )
 
 # Get only a subsample of the train_dataset
 # so we can iterate faster for testing
-# train_dataset = train_dataset[:(10000),:]
+train_dataset = train_dataset[:(20000),:]
 
 after_processing_columns = dataset.shape[1]
 print ("Columns removed: %d" % (before_processing_columns - after_processing_columns))
